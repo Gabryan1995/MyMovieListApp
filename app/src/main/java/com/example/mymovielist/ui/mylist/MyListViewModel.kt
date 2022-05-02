@@ -1,12 +1,11 @@
-package com.example.mymovielist.ui.browse
+package com.example.mymovielist.ui.mylist
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.mymovielist.base.BaseViewModel
 
-class BrowseViewModel(app: Application) : BaseViewModel(app) {
+class MyListViewModel(app: Application) : BaseViewModel(app) {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is gallery Fragment"

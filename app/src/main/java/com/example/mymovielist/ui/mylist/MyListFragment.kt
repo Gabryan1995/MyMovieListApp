@@ -4,31 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.example.mymovielist.base.BaseFragment
 import com.example.mymovielist.databinding.FragmentMylistBinding
+import org.koin.android.ext.android.inject
 
-class MyListFragment : Fragment() {
+class MyListFragment : BaseFragment() {
 
-    private var _binding: FragmentMylistBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    override val _viewModel: MyListViewModel by inject()
+    private lateinit var binding: FragmentMylistBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        binding = FragmentMylistBinding.inflate(layoutInflater)
 
-        _binding = FragmentMylistBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding.viewModel = _viewModel
 
-        return root
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = this
     }
 }
