@@ -1,9 +1,8 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs.kotlin'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdk 31
@@ -76,6 +75,9 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:28.1.0')
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+
+    // Google Play Services
+    implementation "com.google.android.gms:play-services-auth:20.2.0"
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
