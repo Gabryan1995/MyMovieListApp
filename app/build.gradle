@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.mymovielist"
-        minSdk 19
+        minSdk 21
         targetSdk 31
         multiDexEnabled = true
         versionCode 1

@@ -22,6 +22,8 @@ class AuthenticationActivity : AppCompatActivity() {
 
         binding.loginButton.setOnClickListener { launchSignInFlow() }
 
+        setSupportActionBar(binding.appBarMain.toolbar)
+
         setContentView(binding.root)
 
         viewModel.authenticationState.observe(this, { authenticationState ->
@@ -33,10 +35,6 @@ class AuthenticationActivity : AppCompatActivity() {
                 )
             }
         })
-
-//      TODO: a bonus is to customize the sign in flow to look nice using :
-        //https://github.com/firebase/FirebaseUI-Android/blob/master/auth/README.md#custom-layout
-
     }
 
     private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) { result ->
@@ -52,7 +50,8 @@ class AuthenticationActivity : AppCompatActivity() {
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
-            .setIsSmartLockEnabled(false)
+            .setTheme(R.style.Theme_MyMovieList)
+            .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
             .build()
         signInLauncher.launch(signInIntent)
     }
