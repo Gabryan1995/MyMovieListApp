@@ -1,0 +1,20 @@
+<resources>
+    <!-- Notification Preference -->
+    <string-array name="notification_entries">
+        <item>10 Minutes</item>
+        <item>15 Minutes</item>
+        <item>30 Minutes</item>
+        <item>45 Minutes</item>
+        <item>1 hour</item>
+        <item>Never</item>
+    </string-array>
+
+    <string-array name="notification_values">
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>-1</item>
+    </string-array>
+</resources>

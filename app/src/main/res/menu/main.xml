@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/ic_menu_search"
+        android:orderInCategory="10"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_signOut"
+        android:title="Sign Out"
+        android:orderInCategory="20"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
         android:title="@string/action_settings"
+        android:orderInCategory="30"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_clearMyList"
+        android:title="Clear List"
+        android:orderInCategory="40"
         app:showAsAction="never" />
 </menu>
