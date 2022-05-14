@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.25729166666666664" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.25729166666666664" />
+        <entry key="app/src/main/res/drawable/ic_menu_browse.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/ic_menu_camera.xml" value="0.25729166666666664" />
         <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.25729166666666664" />
         <entry key="app/src/main/res/drawable/ic_menu_mylist.xml" value="0.25729166666666664" />
@@ -17,10 +18,13 @@
         <entry key="app/src/main/res/layout/content_main.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_browse.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/fragment_movie_detail.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_mylist.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/movie_grid_item.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.1" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.12135416666666667" />
         <entry key="app/src/main/res/menu/main.xml" value="0.24114583333333334" />

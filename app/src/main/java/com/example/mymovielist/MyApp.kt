@@ -1,6 +1,9 @@
 package com.example.mymovielist
 
 import android.app.Application
+import com.example.mymovielist.data.MovieDataSource
+import com.example.mymovielist.data.local.LocalDB
+import com.example.mymovielist.data.local.MoviesLocalRepository
 import com.example.mymovielist.ui.browse.BrowseViewModel
 import com.example.mymovielist.ui.mylist.MyListViewModel
 import org.koin.android.ext.koin.androidContext
@@ -29,6 +32,9 @@ class MyApp : Application() {
                     get()
                 )
             }
+
+            single { MoviesLocalRepository(get()) as MovieDataSource }
+            single { LocalDB.createRemindersDao(this@MyApp) }
         }
 
         startKoin {
