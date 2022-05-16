@@ -1,6 +1,5 @@
 package com.example.mymovielist.network
 
-import com.example.mymovielist.R
 import com.example.mymovielist.data.dto.MovieDTO
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -24,17 +23,30 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface MovieApiService {
-    @GET("movie/top_rated?api_key=" + R.string.moviedb_key)
-    fun getTopRated(@Query("page") page: Int?): List<MovieDTO>
+    @GET("movie/top_rated")
+    suspend fun getTopRated(
+        @Query("api_key") apiKey: String?,
+        @Query("page") page: Int?
+    ): List<MovieDTO>
 
-    @GET("movie/popular?api_key=" + R.string.moviedb_key)
-    fun getPopular(@Query("page") page: Int?): List<MovieDTO>
+    @GET("movie/popular")
+    suspend fun getPopular(
+        @Query("api_key") apiKey: String?,
+        @Query("page") page: Int?
+    ): List<MovieDTO>
 
-    @GET("movie/now_playing?api_key=" + R.string.moviedb_key)
-    fun getNowPlaying(@Query("page") page: Int?): List<MovieDTO>
+    @GET("movie/now_playing")
+    suspend fun getNowPlaying(
+        @Query("api_key") apiKey: String?,
+        @Query("page") page: Int?
+    ): List<MovieDTO>
 
-    @GET("search/movie?api_key=" + R.string.moviedb_key)
-    fun searchMovies(@Query("query") query: String, @Query("page") page: Int?): List<MovieDTO>
+    @GET("search/movie")
+    suspend fun searchMovies(
+        @Query("api_key") apiKey: String?,
+        @Query("query") query: String,
+        @Query("page") page: Int?
+    ): List<MovieDTO>
 }
 
 object MovieApi {

@@ -4,8 +4,10 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.mymovielist.R
 import com.example.mymovielist.base.BaseViewModel
 import com.example.mymovielist.data.dto.MovieDTO
+import com.example.mymovielist.data.dto.MovieResult
 import com.example.mymovielist.network.MovieApi
 import kotlinx.coroutines.launch
 import retrofit2.http.Url
@@ -42,8 +44,8 @@ class BrowseViewModel(app: Application) : BaseViewModel(app) {
     val nowPlayingPage: LiveData<Int>
         get() = _nowPlayingPage
 
-    private val _navigateToSelectedMovie = MutableLiveData<MovieDTO?>()
-    val navigateToSelectedMovie: MutableLiveData<MovieDTO?>
+    private val _navigateToSelectedMovie = MutableLiveData<MovieResult?>()
+    val navigateToSelectedMovie: MutableLiveData<MovieResult?>
         get() = _navigateToSelectedMovie
 
     init {
@@ -59,7 +61,7 @@ class BrowseViewModel(app: Application) : BaseViewModel(app) {
         viewModelScope.launch {
             _status.value = MoviesApiStatus.LOADING
             try {
-                _topRatedMovies.value = MovieApi.retrofitService.getTopRated(topRatedPage.value)
+                _topRatedMovies.value = MovieApi.retrofitService.getTopRated(R.string.moviedb_key.toString(), topRatedPage.value)
                 _status.value = MoviesApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = MoviesApiStatus.ERROR
@@ -72,7 +74,7 @@ class BrowseViewModel(app: Application) : BaseViewModel(app) {
         viewModelScope.launch {
             _status.value = MoviesApiStatus.LOADING
             try {
-                _popularMovies.value = MovieApi.retrofitService.getPopular(popularPage.value)
+                _popularMovies.value = MovieApi.retrofitService.getPopular(R.string.moviedb_key.toString(), popularPage.value)
                 _status.value = MoviesApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = MoviesApiStatus.ERROR
@@ -85,7 +87,7 @@ class BrowseViewModel(app: Application) : BaseViewModel(app) {
         viewModelScope.launch {
             _status.value = MoviesApiStatus.LOADING
             try {
-                _nowPlayingMovies.value = MovieApi.retrofitService.getNowPlaying(nowPlayingPage.value)
+                _nowPlayingMovies.value = MovieApi.retrofitService.getNowPlaying(R.string.moviedb_key.toString(), nowPlayingPage.value)
                 _status.value = MoviesApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = MoviesApiStatus.ERROR
@@ -94,7 +96,7 @@ class BrowseViewModel(app: Application) : BaseViewModel(app) {
         }
     }
 
-    fun displayMovieDetails(movie: MovieDTO) {
+    fun displayMovieDetails(movie: MovieResult) {
         _navigateToSelectedMovie.value = movie
     }
 

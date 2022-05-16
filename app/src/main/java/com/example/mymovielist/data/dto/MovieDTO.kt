@@ -1,21 +1,23 @@
 package com.example.mymovielist.data.dto
 
-import android.os.Parcelable
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.squareup.moshi.Json
-import kotlinx.parcelize.Parcelize
+import androidx.room.*
 import java.util.*
 
 @Entity(tableName = "movies")
-@Parcelize
 data class MovieDTO(
-    @Json(name = "page") var page: Int?,
-    var title: String?,
-    @Json(name = "overview") var description: String?,
-    @Json(name = "poster_path") var posterPath: String?,
-    @Json(name = "backdrop_path") var backdropPath: String?,
-    @PrimaryKey @ColumnInfo(name = "entry_id") val id: String = UUID.randomUUID().toString()
-) : Parcelable
+    @ColumnInfo(name = "page")
+    var page: Int? = null,
 
+    @ColumnInfo(name = "results")
+    @field:TypeConverters(MovieResultConverter::class)
+    var results: List<MovieResult>? = null,
+
+    @ColumnInfo(name = "total_results")
+    var totalResults: Int? = null,
+
+    @ColumnInfo(name = "total_pages")
+    var totalPages: Int? = null,
+
+    @PrimaryKey @ColumnInfo(name = "entry_id")
+    val id: String = UUID.randomUUID().toString()
+)

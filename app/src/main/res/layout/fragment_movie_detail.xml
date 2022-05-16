@@ -60,7 +60,7 @@
                 android:id="@+id/movie_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.selectedMovie.description}"
+                android:text="@{viewModel.selectedMovie.overview}"
                 tools:text="" />
         </androidx.core.widget.NestedScrollView>
     </com.google.android.material.appbar.CollapsingToolbarLayout>

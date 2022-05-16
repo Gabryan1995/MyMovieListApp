@@ -10,7 +10,7 @@ object LocalDB {
     fun createRemindersDao(context: Context): MoviesDao {
         return Room.databaseBuilder(
             context.applicationContext,
-            MoviesDatabase::class.java, "locationMovies.db"
+            MoviesDatabase::class.java, "myMovies.db"
         ).build().movieDao()
     }
 }

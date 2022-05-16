@@ -28,8 +28,8 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, movies: List<MovieDTO>?) {
-    val adapter = recyclerView.adapter as MovieGridAdapter
-    adapter.submitList(movies)
+    val adapter = recyclerView.adapter as? MovieGridAdapter
+    adapter?.submitList(movies)
 }
 
 @BindingAdapter("movieLoadingStatus")
