@@ -11,6 +11,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
+@ExperimentalStdlibApi
 class MyApp : Application() {
 
     override fun onCreate() {
@@ -34,7 +35,7 @@ class MyApp : Application() {
             }
 
             single { MoviesLocalRepository(get()) as MovieDataSource }
-            single { LocalDB.createRemindersDao(this@MyApp) }
+            single { LocalDB.createMoviesDao(this@MyApp) }
         }
 
         startKoin {

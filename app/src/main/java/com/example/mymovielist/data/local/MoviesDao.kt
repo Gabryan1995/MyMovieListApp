@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.mymovielist.data.dto.MovieDTO
 
+@ExperimentalStdlibApi
 @Dao
 interface MoviesDao {
     /**

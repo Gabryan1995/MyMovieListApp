@@ -22,6 +22,7 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
+@ExperimentalStdlibApi
 interface MovieApiService {
     @GET("movie/top_rated")
     suspend fun getTopRated(
@@ -49,6 +50,7 @@ interface MovieApiService {
     ): List<MovieDTO>
 }
 
+@ExperimentalStdlibApi
 object MovieApi {
     val retrofitService : MovieApiService by lazy { retrofit.create(MovieApiService::class.java) }
 }

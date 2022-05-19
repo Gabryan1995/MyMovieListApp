@@ -3,10 +3,11 @@ package com.example.mymovielist.ui.browse.detail
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.mymovielist.data.dto.MovieDTO
+import com.example.mymovielist.data.dto.MovieResult
 
+@ExperimentalStdlibApi
 class MovieDetailViewModelFactory(
-    private val movie: MovieDTO,
+    private val movie: MovieResult,
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")

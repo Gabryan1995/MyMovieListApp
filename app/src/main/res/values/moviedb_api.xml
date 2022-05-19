@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="moviedb_key" templateMergeStrategy="preserve" translatable="false">Your API Key Here</string>
+    <string name="moviedb_key" templateMergeStrategy="preserve" translatable="false">Your Api Code Here</string>
 </resources>

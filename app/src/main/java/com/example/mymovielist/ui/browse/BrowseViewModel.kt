@@ -14,6 +14,7 @@ import retrofit2.http.Url
 
 enum class MoviesApiStatus { LOADING, ERROR, DONE }
 
+@ExperimentalStdlibApi
 class BrowseViewModel(app: Application) : BaseViewModel(app) {
 
     private val _status = MutableLiveData<MoviesApiStatus>()

@@ -9,6 +9,7 @@ import com.example.mymovielist.data.dto.MovieDTO
 import com.example.mymovielist.data.dto.MovieResult
 import com.example.mymovielist.databinding.MovieGridItemBinding
 
+@ExperimentalStdlibApi
 class MovieGridAdapter(val onClickListener: OnClickListener) : ListAdapter<MovieDTO, MovieGridAdapter.MovieViewHolder>(DiffCallback) {
     companion object DiffCallback : DiffUtil.ItemCallback<MovieDTO>() {
         override fun areItemsTheSame(oldItem: MovieDTO, newItem: MovieDTO): Boolean {
@@ -34,9 +35,9 @@ class MovieGridAdapter(val onClickListener: OnClickListener) : ListAdapter<Movie
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = getItem(position)
-        holder.bind(movie.results?.get(position))
+        holder.bind(movie.results?.movies?.get(position))
         holder.itemView.setOnClickListener {
-            onClickListener.onClick(movie.results?.get(position)!!)
+            onClickListener.onClick(movie.results?.movies?.get(position)!!)
         }
     }
 

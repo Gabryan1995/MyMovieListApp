@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.mymovielist.data.dto.Result
 
+@ExperimentalStdlibApi
 class MoviesLocalRepository(
     private val moviesDao: MoviesDao,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO

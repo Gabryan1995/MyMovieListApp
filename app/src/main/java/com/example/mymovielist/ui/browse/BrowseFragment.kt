@@ -9,6 +9,7 @@ import com.example.mymovielist.base.BaseFragment
 import com.example.mymovielist.databinding.FragmentBrowseBinding
 import org.koin.android.ext.android.inject
 
+@ExperimentalStdlibApi
 class BrowseFragment : BaseFragment() {
 
     override val _viewModel: BrowseViewModel by inject()
