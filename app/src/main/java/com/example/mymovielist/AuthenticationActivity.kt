@@ -22,8 +22,6 @@ class AuthenticationActivity : AppCompatActivity() {
 
         binding.loginButton.setOnClickListener { launchSignInFlow() }
 
-        setSupportActionBar(binding.appBarMain.toolbar)
-
         setContentView(binding.root)
 
         viewModel.authenticationState.observe(this, { authenticationState ->

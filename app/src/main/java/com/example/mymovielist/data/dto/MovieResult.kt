@@ -1,32 +1,18 @@
 package com.example.mymovielist.data.dto
 
-import androidx.room.ColumnInfo
+import android.os.Parcelable
 import androidx.room.TypeConverter
 import com.squareup.moshi.*
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 class MovieResult(
-    pPath: String?,
-    desc: String?,
-    name: String?,
-    bPath: String?
-) {
-    @ColumnInfo(name = "poster_path")
-    @Json(name = "poster_path")
-    var posterPath: String? = pPath
-
-    @ColumnInfo(name = "overview")
-    @Json(name = "overview")
-    var overview: String? = desc
-
-    @ColumnInfo(name = "title")
-    @Json(name = "title")
-    var title: String? = name
-
-    @ColumnInfo(name = "backdrop_path")
-    @Json(name = "backdrop_path")
-    var backdropPath: String? = bPath
-}
+    val posterPath: String?,
+    val overview: String?,
+    val title: String?,
+    val backdropPath: String?
+    ) : Parcelable
 
 class MovieResults(_movies: MovieResults?) {
     var movies: List<MovieResult>? = _movies?.movies

@@ -32,20 +32,3 @@ fun bindRecyclerView(recyclerView: RecyclerView, movies: List<MovieDTO>?) {
     val adapter = recyclerView.adapter as? MovieGridAdapter
     adapter?.submitList(movies)
 }
-
-@BindingAdapter("movieLoadingStatus")
-fun bindStatus(statusImageView: ImageView, status: MoviesApiStatus?) {
-    when (status) {
-        MoviesApiStatus.LOADING -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.ic_loading)
-        }
-        MoviesApiStatus.ERROR -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.ic_broken_image)
-        }
-        MoviesApiStatus.DONE -> {
-            statusImageView.visibility = View.GONE
-        }
-    }
-}
