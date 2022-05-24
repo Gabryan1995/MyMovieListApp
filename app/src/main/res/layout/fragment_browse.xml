@@ -12,27 +12,57 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/purple_500"
+        android:padding="5dp"
         tools:context=".ui.browse.BrowseFragment">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/movies_scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fitsSystemWindows="true">
+
+                <TextView
+                    android:id="@+id/title_topRated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Top Rated"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/top_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:orientation="horizontal"
+                    android:clipToPadding="false"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:listData="@{viewModel.topRatedMovies}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_topRated"
                     tools:itemCount="16"
                     tools:listitem="@layout/movie_grid_item" />
+
+                <TextView
+                    android:id="@+id/title_popular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Popular"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/top_recyclerview"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/popular_recyclerview"
@@ -40,10 +70,25 @@
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:orientation="horizontal"
+                    android:clipToPadding="false"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:listData="@{viewModel.popularMovies}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_popular"
                     tools:itemCount="16"
                     tools:listitem="@layout/movie_grid_item" />
+
+                <TextView
+                    android:id="@+id/title_nowPlaying"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Now Playing"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/popular_recyclerview"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/nowplaying_recyclerview"
@@ -51,14 +96,16 @@
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:orientation="horizontal"
+                    android:clipToPadding="false"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:listData="@{viewModel.nowPlayingMovies}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_nowPlaying"
                     tools:itemCount="16"
                     tools:listitem="@layout/movie_grid_item" />
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -27,6 +27,12 @@ class BrowseFragment : BaseFragment() {
         binding.topRecyclerview.adapter = MovieGridAdapter(MovieGridAdapter.OnClickListener {
             _viewModel.displayMovieDetails(it)
         })
+        binding.popularRecyclerview.adapter = MovieGridAdapter(MovieGridAdapter.OnClickListener {
+            _viewModel.displayMovieDetails(it)
+        })
+        binding.nowplayingRecyclerview.adapter = MovieGridAdapter(MovieGridAdapter.OnClickListener {
+            _viewModel.displayMovieDetails(it)
+        })
 
         _viewModel.navigateToSelectedMovie.observe(this, {
             if (null != it) {
@@ -42,4 +48,6 @@ class BrowseFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
     }
+
+
 }

@@ -66,9 +66,6 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.0'
     kapt "androidx.room:room-compiler:2.4.2"
 
-    // Coroutines Dependencies
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
-
     // Koin
     implementation "io.insert-koin:koin-core:3.1.5"
     testImplementation "io.insert-koin:koin-test:3.1.5"
@@ -87,9 +84,6 @@ dependencies {
 
     // Retrofit with Moshi Converter
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
-
-    // Retrofit Coroutines Support
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:28.1.0')

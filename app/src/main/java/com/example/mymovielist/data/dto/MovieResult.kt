@@ -8,14 +8,17 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class MovieResult(
+    @Json(name = "poster_path")
     val posterPath: String?,
     val overview: String?,
     val title: String?,
-    val backdropPath: String?
+    @Json(name = "backdrop_path")
+    val backdropPath: String?,
+    val id: Int?
     ) : Parcelable
 
-class MovieResults(_movies: MovieResults?) {
-    var movies: List<MovieResult>? = _movies?.movies
+class MovieResults(_movies: List<MovieResult>?) {
+    var movies: List<MovieResult>? = _movies
 }
 
 @ExperimentalStdlibApi
@@ -32,6 +35,6 @@ class MovieResultsConverter {
         val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val movies = moshi.adapter<MovieResults>().fromJson(moviesString)
 
-        return MovieResults(movies)
+        return MovieResults(movies?.movies)
     }
 }

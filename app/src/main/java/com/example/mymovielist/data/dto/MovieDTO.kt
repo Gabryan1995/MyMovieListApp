@@ -14,9 +14,13 @@ data class MovieDTO(
     @Json(name = "page")
     var page: Int? = null,
 
-    @ColumnInfo(name = "results")
+    @Ignore
     @Json(name = "results")
-    var results: MovieResults? = null,
+    var results: List<MovieResult>? = null,
+
+    @ColumnInfo(name = "results")
+    @Transient
+    var wResults: MovieResults? = MovieResults(results),
 
     @ColumnInfo(name = "total_results")
     @Json(name = "total_results")
@@ -26,6 +30,7 @@ data class MovieDTO(
     @Json(name = "total_pages")
     var totalPages: Int? = null,
 
-    @PrimaryKey @ColumnInfo(name = "entry_id")
-    val id: String = UUID.randomUUID().toString()
+    @PrimaryKey
+    @ColumnInfo(name = "entry_id")
+    var id: String = UUID.randomUUID().toString()
 )

@@ -1,6 +1,7 @@
 package com.example.mymovielist.ui.browse
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -21,24 +22,24 @@ class BrowseViewModel(app: Application) : BaseViewModel(app) {
     val status: LiveData<MoviesApiStatus>
         get() = _status
 
-    private val _topRatedMovies = MutableLiveData<List<MovieDTO>>()
-    val topRatedMovies: LiveData<List<MovieDTO>>
+    private val _topRatedMovies = MutableLiveData<MovieDTO>()
+    val topRatedMovies: LiveData<MovieDTO>
         get() = _topRatedMovies
 
     private val _topRatedPage = MutableLiveData<Int>()
     val topRatedPage: LiveData<Int>
         get() = _topRatedPage
 
-    private val _popularMovies = MutableLiveData<List<MovieDTO>>()
-    val popularMovies: LiveData<List<MovieDTO>>
+    private val _popularMovies = MutableLiveData<MovieDTO>()
+    val popularMovies: LiveData<MovieDTO>
         get() = _popularMovies
 
     private val _popularPage = MutableLiveData<Int>()
     val popularPage: LiveData<Int>
         get() = _popularPage
 
-    private val _nowPlayingMovies = MutableLiveData<List<MovieDTO>>()
-    val nowPlayingMovies: LiveData<List<MovieDTO>>
+    private val _nowPlayingMovies = MutableLiveData<MovieDTO>()
+    val nowPlayingMovies: LiveData<MovieDTO>
         get() = _nowPlayingMovies
 
     private val _nowPlayingPage = MutableLiveData<Int>()
@@ -62,11 +63,11 @@ class BrowseViewModel(app: Application) : BaseViewModel(app) {
         viewModelScope.launch {
             _status.value = MoviesApiStatus.LOADING
             try {
-                _topRatedMovies.value = MovieApi.retrofitService.getTopRated(R.string.moviedb_key.toString(), topRatedPage.value)
+                _topRatedMovies.value = MovieApi.retrofitService.getTopRated(getApplication<Application>().resources.getString(R.string.moviedb_key), topRatedPage.value)
                 _status.value = MoviesApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = MoviesApiStatus.ERROR
-                _topRatedMovies.value = ArrayList()
+                _topRatedMovies.value = MovieDTO()
             }
         }
     }
@@ -75,11 +76,11 @@ class BrowseViewModel(app: Application) : BaseViewModel(app) {
         viewModelScope.launch {
             _status.value = MoviesApiStatus.LOADING
             try {
-                _popularMovies.value = MovieApi.retrofitService.getPopular(R.string.moviedb_key.toString(), popularPage.value)
+                _popularMovies.value = MovieApi.retrofitService.getPopular(getApplication<Application>().resources.getString(R.string.moviedb_key), popularPage.value)
                 _status.value = MoviesApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = MoviesApiStatus.ERROR
-                _popularMovies.value = ArrayList()
+                _popularMovies.value = MovieDTO()
             }
         }
     }
@@ -88,11 +89,11 @@ class BrowseViewModel(app: Application) : BaseViewModel(app) {
         viewModelScope.launch {
             _status.value = MoviesApiStatus.LOADING
             try {
-                _nowPlayingMovies.value = MovieApi.retrofitService.getNowPlaying(R.string.moviedb_key.toString(), nowPlayingPage.value)
+                _nowPlayingMovies.value = MovieApi.retrofitService.getNowPlaying(getApplication<Application>().resources.getString(R.string.moviedb_key), nowPlayingPage.value)
                 _status.value = MoviesApiStatus.DONE
             } catch (e: Exception) {
                 _status.value = MoviesApiStatus.ERROR
-                _nowPlayingMovies.value = ArrayList()
+                _nowPlayingMovies.value = MovieDTO()
             }
         }
     }

@@ -6,7 +6,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.http.Query
 
 private const val BASE_URL = "https://api.themoviedb.org/3/"
@@ -18,7 +17,6 @@ private val moshi = Moshi.Builder()
 
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .baseUrl(BASE_URL)
     .build()
 
@@ -28,26 +26,26 @@ interface MovieApiService {
     suspend fun getTopRated(
         @Query("api_key") apiKey: String?,
         @Query("page") page: Int?
-    ): List<MovieDTO>
+    ): MovieDTO
 
     @GET("movie/popular")
     suspend fun getPopular(
         @Query("api_key") apiKey: String?,
         @Query("page") page: Int?
-    ): List<MovieDTO>
+    ): MovieDTO
 
     @GET("movie/now_playing")
     suspend fun getNowPlaying(
         @Query("api_key") apiKey: String?,
         @Query("page") page: Int?
-    ): List<MovieDTO>
+    ): MovieDTO
 
     @GET("search/movie")
     suspend fun searchMovies(
         @Query("api_key") apiKey: String?,
         @Query("query") query: String,
         @Query("page") page: Int?
-    ): List<MovieDTO>
+    ): MovieDTO
 }
 
 @ExperimentalStdlibApi

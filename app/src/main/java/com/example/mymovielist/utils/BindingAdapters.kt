@@ -28,7 +28,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 
 @OptIn(ExperimentalStdlibApi::class)
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, movies: List<MovieDTO>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, movies: MovieDTO?) {
     val adapter = recyclerView.adapter as? MovieGridAdapter
-    adapter?.submitList(movies)
+    adapter?.submitList(movies?.results)
 }
