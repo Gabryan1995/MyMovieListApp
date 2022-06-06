@@ -1,6 +1,6 @@
 package com.example.mymovielist.network
 
-import com.example.mymovielist.data.dto.MovieDTO
+import com.example.mymovielist.data.dto.MoviesPage
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
@@ -26,26 +26,26 @@ interface MovieApiService {
     suspend fun getTopRated(
         @Query("api_key") apiKey: String?,
         @Query("page") page: Int?
-    ): MovieDTO
+    ): MoviesPage
 
     @GET("movie/popular")
     suspend fun getPopular(
         @Query("api_key") apiKey: String?,
         @Query("page") page: Int?
-    ): MovieDTO
+    ): MoviesPage
 
     @GET("movie/now_playing")
     suspend fun getNowPlaying(
         @Query("api_key") apiKey: String?,
         @Query("page") page: Int?
-    ): MovieDTO
+    ): MoviesPage
 
     @GET("search/movie")
     suspend fun searchMovies(
         @Query("api_key") apiKey: String?,
         @Query("query") query: String,
         @Query("page") page: Int?
-    ): MovieDTO
+    ): MoviesPage
 }
 
 @ExperimentalStdlibApi

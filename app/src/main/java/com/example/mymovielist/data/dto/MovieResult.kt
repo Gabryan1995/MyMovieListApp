@@ -1,40 +1,27 @@
 package com.example.mymovielist.data.dto
 
-import android.os.Parcelable
-import androidx.room.TypeConverter
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.*
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
-class MovieResult(
+@Entity(tableName = "movies")
+data class MovieResult(
+    @ColumnInfo(name = "poster_path")
     @Json(name = "poster_path")
     val posterPath: String?,
+
+    @ColumnInfo(name = "overview")
     val overview: String?,
+
+    @ColumnInfo(name = "title")
     val title: String?,
+
+    @ColumnInfo(name = "backdrop_path")
     @Json(name = "backdrop_path")
     val backdropPath: String?,
-    val id: Int?
-    ) : Parcelable
 
-class MovieResults(_movies: List<MovieResult>?) {
-    var movies: List<MovieResult>? = _movies
-}
-
-@ExperimentalStdlibApi
-class MovieResultsConverter {
-    @TypeConverter
-    fun fromMovieResults(movies: MovieResults): String {
-        val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-
-        return moshi.adapter<MovieResults>().toJson(movies)
-    }
-
-    @TypeConverter
-    fun toMovieResults(moviesString: String): MovieResults {
-        val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-        val movies = moshi.adapter<MovieResults>().fromJson(moviesString)
-
-        return MovieResults(movies?.movies)
-    }
-}
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    var id: Int
+)

@@ -2,14 +2,15 @@ package com.example.mymovielist.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.example.mymovielist.data.dto.MovieDTO
-import com.example.mymovielist.data.dto.MovieResultsConverter
+import com.example.mymovielist.data.dto.MoviesPage
 
 @OptIn(ExperimentalStdlibApi::class)
-@Database(entities = [MovieDTO::class], version = 1, exportSchema = false)
-@TypeConverters(MovieResultsConverter::class)
+@Database(
+    entities = [MoviesPage::class, RemoteKeys::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class MoviesDatabase : RoomDatabase() {
-
     abstract fun movieDao(): MoviesDao
+    abstract fun remoteKeysDao(): RemoteKeysDao
 }

@@ -1,17 +1,15 @@
 package com.example.mymovielist.utils
 
 import android.net.Uri
-import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mymovielist.R
-import com.example.mymovielist.data.dto.MovieDTO
+import com.example.mymovielist.data.dto.MoviesPage
 import com.example.mymovielist.network.*
 import com.example.mymovielist.ui.browse.MovieGridAdapter
-import com.example.mymovielist.ui.browse.MoviesApiStatus
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -28,7 +26,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 
 @OptIn(ExperimentalStdlibApi::class)
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, movies: MovieDTO?) {
+fun bindRecyclerView(recyclerView: RecyclerView, movies: MoviesPage?) {
     val adapter = recyclerView.adapter as? MovieGridAdapter
     adapter?.submitList(movies?.results)
 }
