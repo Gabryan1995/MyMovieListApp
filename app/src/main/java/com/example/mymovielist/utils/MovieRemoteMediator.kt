@@ -14,7 +14,7 @@ import retrofit2.HttpException
 
 private const val MOVIE_STARTING_PAGE_INDEX = 1
 
-@ExperimentalPagingApi
+@OptIn(ExperimentalPagingApi::class)
 @ExperimentalStdlibApi
 class MovieRemoteMediator(
     private val apiKey: String,

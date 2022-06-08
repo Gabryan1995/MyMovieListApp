@@ -1,10 +1,7 @@
 package com.example.mymovielist.data.local
 
 import androidx.lifecycle.LiveData
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import com.example.mymovielist.data.MovieDataSource
 import com.example.mymovielist.data.dto.MovieResult
 import com.example.mymovielist.data.dto.MoviesPage
@@ -13,11 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.mymovielist.data.dto.Result
 import com.example.mymovielist.utils.MovieRemoteMediator
+import kotlinx.coroutines.launch
 
-@ExperimentalPagingApi
 @ExperimentalStdlibApi
 class MoviesLocalRepository(
-    private val moviesDao: MoviesDao,
     private val database: MoviesDatabase,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : MovieDataSource {
@@ -26,6 +22,7 @@ class MoviesLocalRepository(
      * Get the movies list from the local db
      * @return Result the holds a Success with all the movies or an Error object with the error message
      */
+    @OptIn(ExperimentalPagingApi::class)
     override suspend fun getMovies(apiKey: String): Result<LiveData<PagingData<MovieResult>>> = withContext(ioDispatcher) {
         return@withContext try {
             Result.Success(
@@ -35,7 +32,7 @@ class MoviesLocalRepository(
                         apiKey,
                         database
                     ),
-                    pagingSourceFactory = moviesDao.getMovies()
+                    pagingSourceFactory = { database.movieDao().getMovies() }
                 ).liveData
             )
         } catch (ex: Exception) {
@@ -49,7 +46,7 @@ class MoviesLocalRepository(
      */
     override suspend fun saveMovies(movies: MoviesPage) =
         withContext(ioDispatcher) {
-            moviesDao.saveMovies(movies)
+            database.movieDao().saveMovies(movies)
         }
 
     /**
@@ -57,7 +54,7 @@ class MoviesLocalRepository(
      */
     override suspend fun deleteAllMovies() {
         withContext(ioDispatcher) {
-            moviesDao.deleteAllMovies()
+            database.movieDao().deleteAllMovies()
         }
     }
 

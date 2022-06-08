@@ -38,7 +38,7 @@ class MyApp : Application() {
                 )
             }
 
-            single { MoviesLocalRepository(get(), get() as MoviesDatabase) as MovieDataSource }
+            single { MoviesLocalRepository(get() as MoviesDatabase) as MovieDataSource }
             single { LocalDB.createMoviesDao(this@MyApp) }
         }
 
