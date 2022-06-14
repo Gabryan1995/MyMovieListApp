@@ -23,8 +23,8 @@ class MoviesLocalRepository(
      * @return Result the holds a Success with all the movies or an Error object with the error message
      */
     @OptIn(ExperimentalPagingApi::class)
-    override suspend fun getMovies(apiKey: String): Result<LiveData<PagingData<MovieResult>>> = withContext(ioDispatcher) {
-        return@withContext try {
+    override fun getMovies(apiKey: String): Result<LiveData<PagingData<MovieResult>>> {
+        return try {
             Result.Success(
                 Pager(
                     config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
@@ -44,7 +44,7 @@ class MoviesLocalRepository(
      * Insert movies in the db.
      * @param movies the movies to be inserted
      */
-    override suspend fun saveMovies(movies: MoviesPage) =
+    override suspend fun saveMovies(movies: List<MovieResult>) =
         withContext(ioDispatcher) {
             database.movieDao().saveMovies(movies)
         }

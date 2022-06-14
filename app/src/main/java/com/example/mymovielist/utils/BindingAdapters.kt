@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mymovielist.R
+import com.example.mymovielist.data.dto.MovieResult
 import com.example.mymovielist.data.dto.MoviesPage
 import com.example.mymovielist.network.*
 import com.example.mymovielist.ui.browse.MovieGridAdapter
@@ -22,11 +23,4 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .error(R.drawable.ic_broken_image)
             .into(imgView)
     }
-}
-
-@OptIn(ExperimentalStdlibApi::class)
-@BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, movies: MoviesPage?) {
-    val adapter = recyclerView.adapter as? MovieGridAdapter
-    adapter?.submitList(movies?.results)
 }

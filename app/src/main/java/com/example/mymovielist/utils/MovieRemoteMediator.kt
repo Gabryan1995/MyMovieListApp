@@ -67,8 +67,8 @@ class MovieRemoteMediator(
         try {
             val apiResponse = MovieApi.retrofitService.getTopRated(apiKey, page)
 
-            val movies = apiResponse
-            val endOfPaginationReached = movies.results.isEmpty()
+            val movies = apiResponse.results
+            val endOfPaginationReached = movies.isEmpty()
             movieDatabase.withTransaction {
                 // clear all tables in the database
                 if (loadType == LoadType.REFRESH) {
@@ -77,7 +77,7 @@ class MovieRemoteMediator(
                 }
                 val prevKey = if (page == MOVIE_STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
-                val keys = movies.results.map {
+                val keys = movies.map {
                     RemoteKeys(repoId = it.id.toLong(), prevKey = prevKey, nextKey = nextKey)
                 }
                 movieDatabase.remoteKeysDao().insertAll(keys)

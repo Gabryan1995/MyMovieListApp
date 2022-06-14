@@ -15,7 +15,7 @@ interface MoviesDao {
      * @return all movies.
      */
     @Query("SELECT * FROM movies")
-    suspend fun getMovies(): PagingSource<Int, MovieResult>
+    fun getMovies(): PagingSource<Int, MovieResult>
 
     /**
      * Insert movies in the database. If the movies already exist, replace them.
@@ -23,7 +23,7 @@ interface MoviesDao {
      * @param movies the movies to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveMovies(movies: MoviesPage)
+    suspend fun saveMovies(movies: List<MovieResult>)
 
     /**
      * Delete all movies.

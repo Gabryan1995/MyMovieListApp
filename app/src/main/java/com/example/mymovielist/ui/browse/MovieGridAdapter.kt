@@ -2,6 +2,7 @@ package com.example.mymovielist.ui.browse
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,7 @@ import com.example.mymovielist.data.dto.MovieResult
 import com.example.mymovielist.databinding.MovieGridItemBinding
 
 @ExperimentalStdlibApi
-class MovieGridAdapter(val onClickListener: OnClickListener) : ListAdapter<MovieResult, MovieGridAdapter.MovieViewHolder>(DiffCallback) {
+class MovieGridAdapter(val onClickListener: OnClickListener) : PagingDataAdapter<MovieResult, MovieGridAdapter.MovieViewHolder>(DiffCallback) {
     companion object DiffCallback : DiffUtil.ItemCallback<MovieResult>() {
         override fun areItemsTheSame(oldItem: MovieResult, newItem: MovieResult): Boolean {
             return oldItem === newItem
@@ -28,7 +29,7 @@ class MovieGridAdapter(val onClickListener: OnClickListener) : ListAdapter<Movie
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieGridAdapter.MovieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(MovieGridItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
@@ -36,7 +37,7 @@ class MovieGridAdapter(val onClickListener: OnClickListener) : ListAdapter<Movie
         val movie = getItem(position)
         holder.bind(movie)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick(movie)
+            onClickListener.onClick(movie!!)
         }
     }
 

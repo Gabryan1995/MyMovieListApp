@@ -3,59 +3,55 @@ package com.example.mymovielist.ui.browse
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.example.mymovielist.R
 import com.example.mymovielist.base.BaseViewModel
 import com.example.mymovielist.data.MovieDataSource
 import com.example.mymovielist.data.dto.*
-import com.example.mymovielist.network.MovieApi
+import com.example.mymovielist.data.dto.Result.*
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 
 enum class MoviesApiStatus { LOADING, ERROR, DONE }
 
 @ExperimentalStdlibApi
-class BrowseViewModel(app: Application, private val dataSource: MovieDataSource)
-    : BaseViewModel(app) {
+class BrowseViewModel(
+    app: Application,
+    private val dataSource: MovieDataSource,
+    private val savedStateHandle: SavedStateHandle
+    ): BaseViewModel(app) {
 
     private val _status = MutableLiveData<MoviesApiStatus>()
     val status: LiveData<MoviesApiStatus>
         get() = _status
 
-    private val _topRatedMovies = MutableLiveData<MoviesPage>()
-    val topRatedMovies: LiveData<MoviesPage>
+    private val _topRatedMovies = MutableLiveData<PagingData<MovieResult>>()
+    val topRatedMovies: LiveData<PagingData<MovieResult>>
         get() = _topRatedMovies
 
-    private var lastPageTopRated = false
-
-    private val _popularMovies = MutableLiveData<MoviesPage>()
-    val popularMovies: LiveData<MoviesPage>
+    private val _popularMovies = MutableLiveData<PagingData<MovieResult>>()
+    val popularMovies: LiveData<PagingData<MovieResult>>
         get() = _popularMovies
 
-    private var lastPagePopular = false
-
-    private val _nowPlayingMovies = MutableLiveData<MoviesPage>()
-    val nowPlayingMovies: LiveData<MoviesPage>
+    private val _nowPlayingMovies = MutableLiveData<PagingData<MovieResult>>()
+    val nowPlayingMovies: LiveData<PagingData<MovieResult>>
         get() = _nowPlayingMovies
-
-    private var lastPageNowPlaying = false
 
     private val _navigateToSelectedMovie = MutableLiveData<MovieResult?>()
     val navigateToSelectedMovie: MutableLiveData<MovieResult?>
         get() = _navigateToSelectedMovie
 
     init {
-        getTopRated(1)
-        getPopular(1)
-        getNowPlaying(1)
+        loadMovies()
     }
 
     fun loadMovies() {
         showLoading.value = true
         viewModelScope.launch {
             //interacting with the dataSource has to be through a coroutine
-            val result = dataSource.getMovies()
+            val result = dataSource.getMovies(getApplication<Application>().applicationContext.getString(R.string.moviedb_key))
             showLoading.postValue(false)
             when (result) {
                 is Result.Success<*> -> {
@@ -91,65 +87,12 @@ class BrowseViewModel(app: Application, private val dataSource: MovieDataSource)
             }
         }
     }
-
-    fun getTopRated(currentPage: Int) {
-        viewModelScope.launch {
-            _status.value = MoviesApiStatus.LOADING
-            try {
-                _topRatedMovies.value = MovieApi.retrofitService.getTopRated(getApplication<Application>().resources.getString(R.string.moviedb_key), currentPage)
-                _topRatedMovies.value!!.movieType = MovieType.TOP_RATED
-                _status.value = MoviesApiStatus.DONE
-                if (currentPage == topRatedMovies.value?.totalPages)
-                    lastPageTopRated = true
-            } catch (e: Exception) {
-                _status.value = MoviesApiStatus.ERROR
-                _topRatedMovies.value = MoviesPage(movieType = MovieType.TOP_RATED)
-            }
-        }
     }
 
-    fun getPopular(currentPage: Int) {
-        viewModelScope.launch {
-            _status.value = MoviesApiStatus.LOADING
-            try {
-                _popularMovies.value = MovieApi.retrofitService.getPopular(getApplication<Application>().resources.getString(R.string.moviedb_key), currentPage)
-                _popularMovies.value!!.movieType = MovieType.POPULAR
-                _status.value = MoviesApiStatus.DONE
-                if (currentPage == popularMovies.value?.totalPages)
-                    lastPagePopular = true
-            } catch (e: Exception) {
-                _status.value = MoviesApiStatus.ERROR
-                _popularMovies.value = MoviesPage(movieType = MovieType.POPULAR)
-            }
-        }
-    }
-
-    fun getNowPlaying(currentPage: Int) {
-        viewModelScope.launch {
-            _status.value = MoviesApiStatus.LOADING
-            try {
-                _nowPlayingMovies.value = MovieApi.retrofitService.getNowPlaying(getApplication<Application>().resources.getString(R.string.moviedb_key), currentPage)
-                _nowPlayingMovies.value!!.movieType = MovieType.NOW_PLAYING
-                _status.value = MoviesApiStatus.DONE
-                if (currentPage == nowPlayingMovies.value?.totalPages)
-                    lastPageNowPlaying = true
-            } catch (e: Exception) {
-                _status.value = MoviesApiStatus.ERROR
-                _nowPlayingMovies.value = MoviesPage(movieType = MovieType.NOW_PLAYING)
-            }
-        }
-    }
-
-    fun isLastPage_topRated(): Boolean {
-        return lastPageTopRated
-    }
-
-    fun isLastPage_popular(): Boolean {
-        return lastPagePopular
-    }
-
-    fun isLastPage_nowPlaying(): Boolean {
-        return lastPageNowPlaying
+    override fun onCleared() {
+        savedStateHandle[LAST_SEARCH_QUERY] = state.value.query
+        savedStateHandle[LAST_QUERY_SCROLLED] = state.value.lastQueryScrolled
+        super.onCleared()
     }
 
     fun displayMovieDetails(movie: MovieResult) {
@@ -160,3 +103,7 @@ class BrowseViewModel(app: Application, private val dataSource: MovieDataSource)
         _navigateToSelectedMovie.value = null
     }
 }
+
+private const val LAST_QUERY_SCROLLED: String = "last_query_scrolled"
+private const val LAST_SEARCH_QUERY: String = "last_search_query"
+private const val DEFAULT_QUERY = "Android"

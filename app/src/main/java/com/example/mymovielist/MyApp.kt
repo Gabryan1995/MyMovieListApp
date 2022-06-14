@@ -1,6 +1,7 @@
 package com.example.mymovielist
 
 import android.app.Application
+import androidx.lifecycle.SavedStateHandle
 import androidx.paging.ExperimentalPagingApi
 import com.example.mymovielist.data.MovieDataSource
 import com.example.mymovielist.data.local.LocalDB
@@ -11,6 +12,7 @@ import com.example.mymovielist.ui.mylist.MyListViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 @ExperimentalPagingApi
@@ -26,9 +28,11 @@ class MyApp : Application() {
         val myModule = module {
             //Declare a ViewModel - be later inject into Fragment with dedicated injector using by viewModel()
             viewModel {
+                parameters ->
                 BrowseViewModel(
                     get(),
-                    get() as MovieDataSource
+                    get() as MovieDataSource,
+                    savedStateHandle = parameters.get()
                 )
             }
 
@@ -38,7 +42,7 @@ class MyApp : Application() {
                 )
             }
 
-            single { MoviesLocalRepository(get() as MoviesDatabase) as MovieDataSource }
+            single { MoviesLocalRepository(MoviesDatabase.getInstance(this@MyApp)) as MovieDataSource }
             single { LocalDB.createMoviesDao(this@MyApp) }
         }
 

@@ -1,10 +1,13 @@
 package com.example.mymovielist.data.dto
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.*
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "movies")
 data class MovieResult(
     @ColumnInfo(name = "poster_path")
@@ -24,4 +27,4 @@ data class MovieResult(
     @PrimaryKey
     @ColumnInfo(name = "id")
     var id: Int
-)
+): Parcelable

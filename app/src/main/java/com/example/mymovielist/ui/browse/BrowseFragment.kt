@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.mymovielist.base.BaseFragment
 import com.example.mymovielist.databinding.FragmentBrowseBinding
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 @ExperimentalStdlibApi
 class BrowseFragment : BaseFragment() {
 
-    override val _viewModel: BrowseViewModel by inject()
+    override val _viewModel: BrowseViewModel by viewModel { parametersOf(this) }
     private lateinit var binding: FragmentBrowseBinding
 
     override fun onCreateView(
@@ -24,15 +28,36 @@ class BrowseFragment : BaseFragment() {
 
         binding.viewModel = _viewModel
 
-        binding.topRecyclerview.adapter = MovieGridAdapter(MovieGridAdapter.OnClickListener {
+        val pagingAdapter = MovieGridAdapter(MovieGridAdapter.OnClickListener {
             _viewModel.displayMovieDetails(it)
         })
-        binding.popularRecyclerview.adapter = MovieGridAdapter(MovieGridAdapter.OnClickListener {
-            _viewModel.displayMovieDetails(it)
-        })
-        binding.nowplayingRecyclerview.adapter = MovieGridAdapter(MovieGridAdapter.OnClickListener {
-            _viewModel.displayMovieDetails(it)
-        })
+
+        binding.topRecyclerview.adapter = pagingAdapter
+
+        binding.popularRecyclerview.adapter = pagingAdapter
+
+        binding.nowplayingRecyclerview.adapter = pagingAdapter
+
+        _viewModel.topRatedMovies.observe(this) { pagingData ->
+            pagingAdapter.submitData(
+                lifecycle,
+                pagingData
+            )
+        }
+
+        _viewModel.popularMovies.observe(this) { pagingData ->
+            pagingAdapter.submitData(
+                lifecycle,
+                pagingData
+            )
+        }
+
+        _viewModel.nowPlayingMovies.observe(this) { pagingData ->
+            pagingAdapter.submitData(
+                lifecycle,
+                pagingData
+            )
+        }
 
         _viewModel.navigateToSelectedMovie.observe(this, {
             if (null != it) {
