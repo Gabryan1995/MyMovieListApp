@@ -21,4 +21,7 @@
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync movies in background</string>
+    <string name="about_page_text">This app was created to allow users to browse current movies, create
+        a list of movies to watch later, favorites, or use it for whatever movie-related ideas they have in mind.
+        This product uses the TMDb API but is not endorsed or certified by TMDB.</string>
 </resources>
