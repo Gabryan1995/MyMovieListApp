@@ -14,11 +14,11 @@ class MoviePagingSource(
     override suspend fun load(
         params: LoadParams<Int>
     ): LoadResult<Int, MovieResult> {
-        return try {
+        try {
             // Start refresh at page 1 if undefined.
             val nextPageNumber = params.key ?: 1
             val response = MovieApi.retrofitService.getTopRated(apiKey, nextPageNumber)
-            LoadResult.Page(
+            return LoadResult.Page(
                 data = response.results,
                 prevKey = null, // Only paging forward.
                 nextKey = response.nextPage
