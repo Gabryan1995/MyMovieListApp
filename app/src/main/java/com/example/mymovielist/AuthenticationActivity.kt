@@ -29,7 +29,7 @@ class AuthenticationActivity : AppCompatActivity() {
                 AuthenticationViewModel.AuthenticationState.AUTHENTICATED -> startActivity(Intent(this, MainActivity::class.java))
                 else -> Log.e(
                     TAG,
-                    "Authentication state that doesn't require any UI change $authenticationState"
+                    "Authentication state: $authenticationState"
                 )
             }
         })

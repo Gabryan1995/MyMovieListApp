@@ -6,6 +6,8 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.mymovielist.data.dto.MovieResult
+import com.example.mymovielist.data.dto.MovieType
+import com.example.mymovielist.data.dto.MoviesPage
 import com.example.mymovielist.data.local.MoviesDatabase
 import com.example.mymovielist.data.local.RemoteKeys
 import com.example.mymovielist.network.MovieApi
@@ -17,6 +19,7 @@ private const val MOVIE_STARTING_PAGE_INDEX = 1
 @OptIn(ExperimentalPagingApi::class)
 @ExperimentalStdlibApi
 class MovieRemoteMediator(
+    private val movieType: MovieType,
     private val apiKey: String,
     private val movieDatabase: MoviesDatabase
 ) : RemoteMediator<Int, MovieResult>() {
@@ -65,8 +68,14 @@ class MovieRemoteMediator(
         }
 
         try {
-            val apiResponse = MovieApi.retrofitService.getTopRated(apiKey, page)
-
+            val apiResponse: MoviesPage
+            if (movieType == MovieType.TOP_RATED) {
+                apiResponse = MovieApi.retrofitService.getMovies("top_rated", apiKey, page)
+            } else if (movieType == MovieType.POPULAR) {
+                apiResponse = MovieApi.retrofitService.getMovies("popular", apiKey, page)
+            } else {
+                apiResponse = MovieApi.retrofitService.getMovies("now_playing", apiKey, page)
+            }
             val movies = apiResponse.results
             val endOfPaginationReached = movies.isEmpty()
             movieDatabase.withTransaction {

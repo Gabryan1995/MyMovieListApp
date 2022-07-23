@@ -10,13 +10,12 @@ import com.example.mymovielist.R
 import com.example.mymovielist.base.BaseViewModel
 import com.example.mymovielist.data.MovieDataSource
 import com.example.mymovielist.data.dto.*
-import com.example.mymovielist.data.dto.Result.*
-import com.example.mymovielist.data.local.MoviePagingSource
-import kotlinx.coroutines.launch
-import java.util.*
+import com.example.mymovielist.data.local.MoviesDatabase
+import com.example.mymovielist.utils.MovieRemoteMediator
 
 enum class MoviesApiStatus { LOADING, ERROR, DONE }
 
+@ExperimentalPagingApi
 @ExperimentalStdlibApi
 class BrowseViewModel(
     app: Application,
@@ -44,6 +43,8 @@ class BrowseViewModel(
     val navigateToSelectedMovie: LiveData<MovieResult?>
         get() = _navigateToSelectedMovie
 
+    private val database = MoviesDatabase.getInstance(app)
+
     init {
         loadMovies()
     }
@@ -51,16 +52,34 @@ class BrowseViewModel(
     private fun loadMovies() {
         showLoading.value = true
 
-        _topRatedMovies = Pager(PagingConfig(pageSize = 20)) {
-            MoviePagingSource(getApplication<Application>().applicationContext.getString(R.string.moviedb_key))
+        _topRatedMovies = Pager(config = PagingConfig(pageSize = 20),
+            remoteMediator = MovieRemoteMediator(
+                MovieType.TOP_RATED,
+                getApplication<Application>().applicationContext.getString(R.string.moviedb_key),
+                database
+            )
+        ) {
+            database.movieDao().getMovies()
         }.liveData.cachedIn(viewModelScope) as MutableLiveData<PagingData<MovieResult>>
 
-        _popularMovies = Pager(PagingConfig(pageSize = 20)) {
-            MoviePagingSource(getApplication<Application>().applicationContext.getString(R.string.moviedb_key))
+        _popularMovies = Pager(config = PagingConfig(pageSize = 20),
+            remoteMediator = MovieRemoteMediator(
+                MovieType.POPULAR,
+                getApplication<Application>().applicationContext.getString(R.string.moviedb_key),
+                database
+            )
+        ) {
+            database.movieDao().getMovies()
         }.liveData.cachedIn(viewModelScope) as MutableLiveData<PagingData<MovieResult>>
 
-        _nowPlayingMovies = Pager(PagingConfig(pageSize = 20)) {
-            MoviePagingSource(getApplication<Application>().applicationContext.getString(R.string.moviedb_key))
+        _nowPlayingMovies = Pager(config = PagingConfig(pageSize = 20),
+            remoteMediator = MovieRemoteMediator(
+                MovieType.NOW_PLAYING,
+                getApplication<Application>().applicationContext.getString(R.string.moviedb_key),
+                database
+            )
+        ) {
+            database.movieDao().getMovies()
         }.liveData.cachedIn(viewModelScope) as MutableLiveData<PagingData<MovieResult>>
     }
 

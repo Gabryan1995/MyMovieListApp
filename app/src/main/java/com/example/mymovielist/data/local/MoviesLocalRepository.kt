@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.*
 import com.example.mymovielist.data.MovieDataSource
 import com.example.mymovielist.data.dto.MovieResult
+import com.example.mymovielist.data.dto.MovieType
 import com.example.mymovielist.data.dto.MoviesPage
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -23,12 +24,13 @@ class MoviesLocalRepository(
      * @return Result the holds a Success with all the movies or an Error object with the error message
      */
     @OptIn(ExperimentalPagingApi::class)
-    override fun getMovies(apiKey: String): Result<LiveData<PagingData<MovieResult>>> {
+    override fun getMovies(movieType: MovieType, apiKey: String): Result<LiveData<PagingData<MovieResult>>> {
         return try {
             Result.Success(
                 Pager(
                     config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
                     remoteMediator = MovieRemoteMediator(
+                        movieType,
                         apiKey,
                         database
                     ),
