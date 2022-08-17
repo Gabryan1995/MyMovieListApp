@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="com.example.mymovielist.ui.browse.BrowseViewModel" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,6 +54,15 @@
                     tools:itemCount="16"
                     tools:listitem="@layout/movie_grid_item" />
 
+                <ProgressBar
+                    android:id="@+id/topProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:visibility="@{viewModel.showLoading.booleanValue() ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_topRated" />
+
                 <TextView
                     android:id="@+id/title_popular"
                     android:layout_width="match_parent"
@@ -78,6 +88,15 @@
                     tools:itemCount="16"
                     tools:listitem="@layout/movie_grid_item" />
 
+                <ProgressBar
+                    android:id="@+id/popularProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:visibility="@{viewModel.showLoading.booleanValue() ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_popular" />
+
                 <TextView
                     android:id="@+id/title_nowPlaying"
                     android:layout_width="match_parent"
@@ -102,6 +121,15 @@
                     app:layout_constraintTop_toBottomOf="@id/title_nowPlaying"
                     tools:itemCount="16"
                     tools:listitem="@layout/movie_grid_item" />
+
+                <ProgressBar
+                    android:id="@+id/nowplayingProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:visibility="@{viewModel.showLoading.booleanValue() ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_nowPlaying" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

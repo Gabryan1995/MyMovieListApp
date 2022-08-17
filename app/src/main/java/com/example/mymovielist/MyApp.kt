@@ -1,7 +1,6 @@
 package com.example.mymovielist
 
 import android.app.Application
-import androidx.lifecycle.SavedStateHandle
 import androidx.paging.ExperimentalPagingApi
 import com.example.mymovielist.data.MovieDataSource
 import com.example.mymovielist.data.local.LocalDB
@@ -12,7 +11,6 @@ import com.example.mymovielist.ui.mylist.MyListViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
-import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 @ExperimentalPagingApi

@@ -1,7 +1,11 @@
 package com.example.mymovielist.data.local
 
+import android.app.Application
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.*
+import com.example.mymovielist.R
 import com.example.mymovielist.data.MovieDataSource
 import com.example.mymovielist.data.dto.MovieResult
 import com.example.mymovielist.data.dto.MovieType
@@ -28,7 +32,7 @@ class MoviesLocalRepository(
         return try {
             Result.Success(
                 Pager(
-                    config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
+                    config = PagingConfig(pageSize = NETWORK_PAGE_SIZE),
                     remoteMediator = MovieRemoteMediator(
                         movieType,
                         apiKey,
