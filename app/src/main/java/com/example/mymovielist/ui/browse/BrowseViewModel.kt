@@ -45,92 +45,20 @@ class BrowseViewModel(
     val navigateToSelectedMovie: LiveData<MovieResult?>
         get() = _navigateToSelectedMovie
 
-    private val database = MoviesDatabase.getInstance(app)
+    fun getTopRatedMovies() = dataSource.getMovies(
+        MovieType.TOP_RATED,
+        getApplication<Application>().applicationContext.getString(R.string.moviedb_key)
+    )
 
-    init {
-        loadMovies()
-    }
+    fun getPopularMovies() = dataSource.getMovies(
+        MovieType.POPULAR,
+        getApplication<Application>().applicationContext.getString(R.string.moviedb_key)
+    )
 
-    private fun loadMovies() {
-        showLoading.value = true
-
-        viewModelScope.launch {
-            //interacting with the dataSource has to be through a coroutine
-            val topRatedResult = dataSource.getMovies(
-                MovieType.TOP_RATED,
-                getApplication<Application>().applicationContext.getString(R.string.moviedb_key)
-            )
-            val popularResult = dataSource.getMovies(
-                MovieType.POPULAR,
-                getApplication<Application>().applicationContext.getString(R.string.moviedb_key)
-            )
-            val nowPlayingResult = dataSource.getMovies(
-                MovieType.NOW_PLAYING,
-                getApplication<Application>().applicationContext.getString(R.string.moviedb_key)
-            )
-            showLoading.postValue(false)
-            when (topRatedResult) {
-                is Result.Success<*> -> {
-                    val dataList = (topRatedResult.data as LiveData<PagingData<MovieResult>>).value?.map { movie ->
-                        //map the reminder data from the DB to the be ready to be displayed on the UI
-                        MovieResult(
-                            movie.posterPath,
-                            movie.overview,
-                            movie.title,
-                            movie.backdropPath,
-                            movie.id
-                        )
-                    }!!
-                    _topRatedMovies.value = dataList
-                }
-                is Result.Error ->
-                    showSnackBar.value = topRatedResult.message
-            }
-            when (popularResult) {
-                is Result.Success<*> -> {
-                    val dataList = (popularResult.data as LiveData<PagingData<MovieResult>>).value?.map { movie ->
-                        //map the reminder data from the DB to the be ready to be displayed on the UI
-                        MovieResult(
-                            movie.posterPath,
-                            movie.overview,
-                            movie.title,
-                            movie.backdropPath,
-                            movie.id
-                        )
-                    }!!
-                    _popularMovies.value = dataList
-                }
-                is Result.Error ->
-                    showSnackBar.value = popularResult.message
-            }
-            when (nowPlayingResult) {
-                is Result.Success<*> -> {
-                    val dataList = (nowPlayingResult.data as LiveData<PagingData<MovieResult>>).value?.map { movie ->
-                        //map the reminder data from the DB to the be ready to be displayed on the UI
-                        MovieResult(
-                            movie.posterPath,
-                            movie.overview,
-                            movie.title,
-                            movie.backdropPath,
-                            movie.id
-                        )
-                    }!!
-                    _nowPlayingMovies.value = dataList
-                }
-                is Result.Error ->
-                    showSnackBar.value = nowPlayingResult.message
-            }
-        }
-//        _nowPlayingMovies = Pager(config = PagingConfig(pageSize = 20),
-//            remoteMediator = MovieRemoteMediator(
-//                MovieType.NOW_PLAYING,
-//                getApplication<Application>().applicationContext.getString(R.string.moviedb_key),
-//                database
-//            )
-//        ) {
-//            database.movieDao().getMovies()
-//        }.liveData.cachedIn(viewModelScope) as MutableLiveData<PagingData<MovieResult>>
-    }
+    fun getNowPlayingMovies() = dataSource.getMovies(
+        MovieType.NOW_PLAYING,
+        getApplication<Application>().applicationContext.getString(R.string.moviedb_key)
+    )
 
     fun displayMovieDetails(movie: MovieResult) {
         _navigateToSelectedMovie.value = movie

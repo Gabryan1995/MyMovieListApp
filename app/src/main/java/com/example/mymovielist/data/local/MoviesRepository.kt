@@ -18,7 +18,7 @@ import com.example.mymovielist.utils.MovieRemoteMediator
 import kotlinx.coroutines.launch
 
 @ExperimentalStdlibApi
-class MoviesLocalRepository(
+class MoviesRepository(
     private val database: MoviesDatabase,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : MovieDataSource {

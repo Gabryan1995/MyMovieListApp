@@ -5,7 +5,7 @@ import androidx.paging.ExperimentalPagingApi
 import com.example.mymovielist.data.MovieDataSource
 import com.example.mymovielist.data.local.LocalDB
 import com.example.mymovielist.data.local.MoviesDatabase
-import com.example.mymovielist.data.local.MoviesLocalRepository
+import com.example.mymovielist.data.local.MoviesRepository
 import com.example.mymovielist.ui.browse.BrowseViewModel
 import com.example.mymovielist.ui.mylist.MyListViewModel
 import org.koin.android.ext.koin.androidContext
@@ -40,7 +40,7 @@ class MyApp : Application() {
                 )
             }
 
-            single { MoviesLocalRepository(MoviesDatabase.getInstance(this@MyApp)) as MovieDataSource }
+            single { MoviesRepository(MoviesDatabase.getInstance(this@MyApp)) as MovieDataSource }
             single { LocalDB.createMoviesDao(this@MyApp) }
         }
 

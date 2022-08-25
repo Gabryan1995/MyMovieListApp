@@ -40,21 +40,21 @@ class BrowseFragment : BaseFragment() {
 
         binding.nowplayingRecyclerview.adapter = pagingAdapter
 
-        _viewModel.topRatedMovies.observe(this) { pagingData ->
+        _viewModel.getTopRatedMovies().observe(this) { pagingData ->
             pagingAdapter.submitData(
                 lifecycle,
                 pagingData
             )
         }
 
-        _viewModel.popularMovies.observe(this) { pagingData ->
+        _viewModel.getPopularMovies().observe(this) { pagingData ->
             pagingAdapter.submitData(
                 lifecycle,
                 pagingData
             )
         }
 
-        _viewModel.nowPlayingMovies.observe(this) { pagingData ->
+        _viewModel.getNowPlayingMovies().observe(this) { pagingData ->
             pagingAdapter.submitData(
                 lifecycle,
                 pagingData
