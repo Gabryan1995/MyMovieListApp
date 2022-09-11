@@ -28,22 +28,16 @@ class MoviesRepository(
      * @return Result the holds a Success with all the movies or an Error object with the error message
      */
     @OptIn(ExperimentalPagingApi::class)
-    override fun getMovies(movieType: MovieType, apiKey: String): Result<LiveData<PagingData<MovieResult>>> {
-        return try {
-            Result.Success(
-                Pager(
-                    config = PagingConfig(pageSize = NETWORK_PAGE_SIZE),
-                    remoteMediator = MovieRemoteMediator(
-                        movieType,
-                        apiKey,
-                        database
-                    ),
-                    pagingSourceFactory = { database.movieDao().getMovies() }
-                ).liveData
-            )
-        } catch (ex: Exception) {
-            Result.Error(ex.localizedMessage)
-        }
+    override fun getMovies(movieType: MovieType, apiKey: String): LiveData<PagingData<MovieResult>> {
+        return Pager(
+            config = PagingConfig(pageSize = NETWORK_PAGE_SIZE),
+            remoteMediator = MovieRemoteMediator(
+                movieType,
+                apiKey,
+                database
+            ),
+            pagingSourceFactory = { database.movieDao().getMovies() }
+        ).liveData
     }
 
     /**

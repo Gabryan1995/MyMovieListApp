@@ -6,7 +6,7 @@ import com.example.mymovielist.data.dto.*
 
 @ExperimentalStdlibApi
 interface MovieDataSource {
-    fun getMovies(movieType: MovieType, apiKey: String): Result<LiveData<PagingData<MovieResult>>>
+    fun getMovies(movieType: MovieType, apiKey: String): LiveData<PagingData<MovieResult>>
     suspend fun saveMovies(movies: List<MovieResult>)
     suspend fun deleteAllMovies()
 }

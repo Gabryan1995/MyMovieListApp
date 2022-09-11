@@ -16,6 +16,8 @@ import retrofit2.HttpException
 
 private const val MOVIE_STARTING_PAGE_INDEX = 1
 
+// TODO: LIST OF MOVIES JUMPING TO NEW APPENDED MOVIES, FORCING NEXT MOVIES IN LIST TO BE LOADED
+
 @OptIn(ExperimentalPagingApi::class)
 @ExperimentalStdlibApi
 class MovieRemoteMediator(
@@ -39,19 +41,6 @@ class MovieRemoteMediator(
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                 remoteKeys?.nextKey?.minus(1) ?: MOVIE_STARTING_PAGE_INDEX
             }
-            LoadType.PREPEND -> {
-                val remoteKeys = getRemoteKeyForFirstItem(state)
-                // If remoteKeys is null, that means the refresh result is not in the database yet.
-                // We can return Success with `endOfPaginationReached = false` because Paging
-                // will call this method again if RemoteKeys becomes non-null.
-                // If remoteKeys is NOT NULL but its prevKey is null, that means we've reached
-                // the end of pagination for prepend.
-                val prevKey = remoteKeys?.prevKey
-                if (prevKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
-                }
-                prevKey
-            }
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
                 // If remoteKeys is null, that means the refresh result is not in the database yet.
@@ -65,16 +54,22 @@ class MovieRemoteMediator(
                 }
                 nextKey
             }
+            LoadType.PREPEND -> {
+                val remoteKeys = getRemoteKeyForFirstItem(state)
+                // If remoteKeys is null, that means the refresh result is not in the database yet.
+                val prevKey = remoteKeys?.prevKey
+                if (prevKey == null) {
+                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                }
+                prevKey
+            }
         }
 
         try {
-            val apiResponse: MoviesPage
-            if (movieType == MovieType.TOP_RATED) {
-                apiResponse = MovieApi.retrofitService.getMovies("top_rated", apiKey, page)
-            } else if (movieType == MovieType.POPULAR) {
-                apiResponse = MovieApi.retrofitService.getMovies("popular", apiKey, page)
-            } else {
-                apiResponse = MovieApi.retrofitService.getMovies("now_playing", apiKey, page)
+            val apiResponse = when (movieType) {
+                MovieType.TOP_RATED -> MovieApi.retrofitService.getMovies("top_rated", apiKey, page)
+                MovieType.POPULAR -> MovieApi.retrofitService.getMovies("popular", apiKey, page)
+                else -> MovieApi.retrofitService.getMovies("now_playing", apiKey, page)
             }
             val movies = apiResponse.results
             val endOfPaginationReached = movies.isEmpty()
@@ -103,7 +98,7 @@ class MovieRemoteMediator(
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, MovieResult>): RemoteKeys? {
         // Get the last page that was retrieved, that contained items.
         // From that last page, get the last item
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { repo ->
                 // Get the remote keys of the last item retrieved
                 movieDatabase.remoteKeysDao().remoteKeysRepoId(repo.id.toLong())
